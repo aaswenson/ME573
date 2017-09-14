@@ -13,7 +13,7 @@ import numpy as np
 fig = plt.figure()
 ax = fig.gca(projection='3d')
 
-a = 0.01
+a = 0.1
 b = a
 
 step_size = a / (100 * 1.0)
