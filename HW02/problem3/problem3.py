@@ -98,6 +98,5 @@ if __name__ == '__main__':
             error[time][1].append(err)
     # plot data/error
     plot_f(data_exact)
-    print error
     plot_err(error)
 
