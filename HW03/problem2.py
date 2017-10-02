@@ -28,11 +28,21 @@ def scaling_analysis():
         gauss_ts.append(gaussian_elimination(sp_array, B)[2])
         thoms_ts.append(thomas_solver(sp_array, B)[1])
     
-    plt.plot(n, gauss_ts)
-    plt.plot(n, thoms_ts)
-    plt.show()
+    return [n, gauss_ts, thoms_ts]
+
+def plot_results(results):
+    
+    plt.plot(results[0], results[1], label="gaussian")
+    plt.plot(results[0], results[2], label="thomas")
+    plt.title("Computation Time Gaussian vs. Thomas Algorithms")
+    plt.xlabel("Coefficient matrix dimension (n x n) [-]")
+    plt.ylabel("CPU time [ms]")
+    plt.legend()
+    plt.savefig("problem2.pdf")
+
 
 
 if __name__ == '__main__':
     
-    scaling_analysis()
+    results = scaling_analysis()
+    plot_results(results)
