@@ -94,7 +94,8 @@ def error_decay(domain):
         # get fx
         x, fx, exact = get_f_f_prime(domain, h)
         # get list index
-        idx = int((x_eval - domain[0]) / h)      
+        idx = int((x_eval - domain[0]) / h) - 1
+        print idx
         # calculate approximations of f'(x)
         first = forward_diff(fx, h)[idx]
         second = second_order_cent(fx, h)[idx]
@@ -122,7 +123,7 @@ def plot_parta(data, title):
     plt.xlabel('x [-]')
     plt.ylabel("log(f(x), f'(x)) [-]")
     plt.title(title)
-#    plt.show()
+#    #plt.show()
 
 def plot_partb(dx, data, title):
     plt.figure(2)
@@ -130,23 +131,23 @@ def plot_partb(dx, data, title):
     plt.plot(dx[1:-1], data[1], label='2nd Order')
     plt.plot(dx[2:-2], data[2], label='4th Order')
     plt.legend()
-    plt.show()
+    #plt.show()
 
 def plot_partc(h, data, title):
-    plt.figure(2)
-    plt.plot(h, data[0], label='1st Order')
-    plt.plot(h, data[1], label='2nd Order')
-    plt.plot(h, data[2], label='4th Order')
+    plt.figure(3)
+    plt.loglog(h, data[0], label='1st Order')
+    plt.loglog(h, data[1], label='2nd Order')
+    plt.loglog(h, data[2], label='4th Order')
     plt.legend()
     plt.show()
 
 if __name__ == '__main__':
     
-    domain = (0.1, 1)
+    domain = (0.1, 0.4)
     dx = 0.005
     data = get_f_f_prime(domain, dx)
-#    plot_parta(data, 'Part A')
+    plot_parta(data, 'Part A')
     e1, e2, e3, x = compare_numerical_schemes(domain, dx)
-#    plot_partb(x, [e1, e2, e3], 'Part B')
+    plot_partb(x, [e1, e2, e3], 'Part B')
     er1, er2, er4, h_vals = error_decay(domain)
     plot_partc(h_vals, [er1, er2, er4], 'Part C')
