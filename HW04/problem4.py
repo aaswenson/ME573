@@ -90,12 +90,12 @@ def error_decay(domain):
     dx = [0.0001, 0.0005, 0.001, 0.01, 0.05]
     x_eval = 0.2
     f_prime_exact = eval_f_prime(x_eval)
+    print f_prime_exact
     for i, h in enumerate(dx):
         # get fx
         x, fx, exact = get_f_f_prime(domain, h)
         # get list index
-        idx = int((x_eval - domain[0]) / h) - 1
-        print idx
+        idx = int((x_eval - domain[0]) / h) - 1 
         # calculate approximations of f'(x)
         first = forward_diff(fx, h)[idx]
         second = second_order_cent(fx, h)[idx]
@@ -103,11 +103,11 @@ def error_decay(domain):
         err1 = abs(first - f_prime_exact) / abs(f_prime_exact)
         err2 = abs(second - f_prime_exact) / abs(f_prime_exact)
         err4 = abs(fourth - f_prime_exact) / abs(f_prime_exact)
-
+        print fourth
+        print first
         er1.append(err1)
         er2.append(err2)
         er4.append(err4)
-
     return er1, er2, er4, dx
 
 
@@ -123,7 +123,8 @@ def plot_parta(data, title):
     plt.xlabel('x [-]')
     plt.ylabel("log(f(x), f'(x)) [-]")
     plt.title(title)
-#    #plt.show()
+    plt.savefig("prob4_partA.png")
+    plt.show()
 
 def plot_partb(dx, data, title):
     plt.figure(2)
@@ -131,7 +132,11 @@ def plot_partb(dx, data, title):
     plt.plot(dx[1:-1], data[1], label='2nd Order')
     plt.plot(dx[2:-2], data[2], label='4th Order')
     plt.legend()
-    #plt.show()
+    plt.xlabel('x [-]')
+    plt.ylabel("f'(x)) [-]")
+    plt.title(title)
+    plt.savefig("prob4_partB.png")
+    plt.show()
 
 def plot_partc(h, data, title):
     plt.figure(3)
@@ -139,6 +144,21 @@ def plot_partc(h, data, title):
     plt.loglog(h, data[1], label='2nd Order')
     plt.loglog(h, data[2], label='4th Order')
     plt.legend()
+    plt.xlabel('x [-]')
+    plt.ylabel("log(error [-]")
+    plt.title(title)
+    plt.savefig("prob4_partC.png")
+    plt.show()
+    # plot error linear
+    plt.figure(4)
+    plt.plot(h, data[0], label='1st Order')
+    plt.plot(h, data[1], label='2nd Order')
+    plt.plot(h, data[2], label='4th Order')
+    plt.legend()
+    plt.xlabel('x [-]')
+    plt.ylabel("log(error [-]")
+    plt.title(title + 'Linear Plot')
+    plt.savefig("prob4_partC_lin.png")
     plt.show()
 
 if __name__ == '__main__':
