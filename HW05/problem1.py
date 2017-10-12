@@ -7,8 +7,8 @@ from solvers import solve_matrix, gaussian_elimination, thomas_solver
 
 # some constants
 k = 1e-3
+default_dt = 0.01
 dx_vals = [0.5, 0.25, 0.05]
-dt = 0.01
 t_end = 1e2
 domain = (-3, 3)
 
@@ -40,7 +40,7 @@ def make_b_array(n):
 
     return array
 
-def run_ftcs_calc(dx):
+def run_ftcs_calc(dx, dt=default_dt):
     
     f = []
     times = np.linspace(0, t_end, t_end / dt)
@@ -66,11 +66,11 @@ def get_analytic_solution(x, t):
 
     return fa
 
-def run_comparison():
+def run_comparison(dt=default_dt):
     
     x_data = []
     f_data = []
-    time_idx = int(1e2 / 0.01)
+    time_idx = int(t_end / dt)
     for dx in dx_vals:
         f, x = run_ftcs_calc(dx)
         f_data.append(f[time_idx])
