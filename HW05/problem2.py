@@ -91,7 +91,7 @@ def run_comparison(dt=default_dt):
 
     return [analytic, forward, back]
 
-def plot(data):
+def plot(data, savefig):
 
     plt.plot(data[0][0], data[0][1], label='Analytic')
     plt.plot(data[1][0], data[1][1], label='FTCS')
@@ -100,10 +100,12 @@ def plot(data):
     plt.title("FTCS vs. BTCS dx = 0.05 dt = 2.0")
     plt.xlabel('x [-]')
     plt.ylabel('f [-]')
-    plt.savefig("./write_up/problem2b.png")
+    plt.savefig("./write_up/{0}.png".format(savefig))
     plt.show()
 
 if __name__ == '__main__':
     
-    data = run_comparison()
-    plot(data)
+    data1 = run_comparison(1.0)
+    plot(data1, "problem2a")
+    data2 = run_comparison(2.0)
+    plot(data2, "problem2b")
