@@ -9,7 +9,7 @@ import problem1 as p1
 # some constants
 k = 1e-3
 dx = 0.05
-default_dt = 1
+default_dt = 2
 t_end = 1e2
 domain = (-3, 3)
 
@@ -97,11 +97,10 @@ def plot(data):
     plt.plot(data[1][0], data[1][1], label='FTCS')
     plt.plot(data[2][0], data[2][1], label='BTCS')
     plt.legend()
-    plt.title("Comparing FTCS and BTCS to the exact solution\
-               dx = 0.05 dt = 1.0")
+    plt.title("FTCS vs. BTCS dx = 0.05 dt = 2.0")
     plt.xlabel('x [-]')
     plt.ylabel('f [-]')
-    plt.savefig("problem2a.png")
+    plt.savefig("./write_up/problem2b.png")
     plt.show()
 
 if __name__ == '__main__':

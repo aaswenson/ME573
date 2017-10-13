@@ -93,7 +93,7 @@ def plot(x_data, f_data):
     plt.title("Forward in Time, Central in Space Scheme")
     plt.xlabel('x [-]')
     plt.ylabel('f [-]')
-    plt.savefig("problem1.png")
+    plt.savefig("./write_up/problem1.png")
     plt.show()
 
 if __name__ == '__main__':
