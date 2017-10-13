@@ -24,7 +24,11 @@ def make_A_back(n, dx, dt):
     data = np.hstack((c1*e, a1*e, c1*e)).T
     diags = np.array((-1, 0, 1))
     sp_array = scipy.sparse.spdiags(data, diags, n, n).toarray()
-
+    sp_array[0][0] = 1
+    sp_array[0][1:] = 0
+    sp_array[-1][-1] = 1
+    sp_array[-1][:-1] = 0
+    
     return sp_array
 
 def make_b_array_back(n, dt):
@@ -53,7 +57,6 @@ def run_btcs_calc(dx, dt):
     x = np.linspace( domain[0], domain[1], n)
     b_init = make_b_array_back(n, dt)
     A = make_A_back(n, dx, dt)
-
     f.append(solve_matrix(A, b_init)[0])
 
     for i in range(0, len(times)):
@@ -83,8 +86,8 @@ def run_comparison(dt=default_dt):
     fa = get_analytic_solution(x, 1e2)
     
     analytic = (x, fa)
-    forward = (x, f_forward[time_idx])
-    back = (x, f_back[time_idx])
+    forward = (x, f_forward[-1])
+    back = (x, f_back[-1])
 
     return [analytic, forward, back]
 
@@ -94,10 +97,11 @@ def plot(data):
     plt.plot(data[1][0], data[1][1], label='FTCS')
     plt.plot(data[2][0], data[2][1], label='BTCS')
     plt.legend()
-    plt.title("Backward in Time, Central in Space Scheme")
+    plt.title("Comparing FTCS and BTCS to the exact solution\
+               dx = 0.05 dt = 1.0")
     plt.xlabel('x [-]')
     plt.ylabel('f [-]')
-    plt.savefig("problem2.png")
+    plt.savefig("problem2a.png")
     plt.show()
 
 if __name__ == '__main__':

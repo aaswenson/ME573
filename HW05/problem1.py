@@ -16,10 +16,13 @@ def make_A(n, alpha):
     """Produce sparse diagonal matrix for algorithm testing.
     """
     e = np.ones((n, 1))
-    data = np.hstack((-alpha * e, (1 + 2*alpha)*e, -alpha * e)).T
+    data = np.hstack((alpha * e, (1 - 2*alpha)*e, alpha * e)).T
     diags = np.array((-1, 0, 1))
     sp_array = scipy.sparse.spdiags(data, diags, n, n).toarray()
-
+    sp_array[0][0] = 1
+    sp_array[0][1:] = 0
+    sp_array[-1][-1] = 1
+    sp_array[-1][:-1] = 0
     return sp_array
 
 def make_b_array(n):
@@ -49,13 +52,12 @@ def run_ftcs_calc(dx, dt=default_dt):
     x = np.linspace( domain[0], domain[1], n)
     b_init = make_b_array(n)
     A = make_A(n, alpha)
-
-    f.append(solve_matrix(A, b_init)[0])
-
-    for i in range(0, len(times)):
-
-        f.append(solve_matrix(A, f[i])[0])
-
+    # set initial conditions and begin forward march
+    f.append(b_init)
+    for i in range(1, len(times)):
+        f1 = f[i-1].dot(A)
+        f.append(f1)
+     
     return f, x
 
 def get_analytic_solution(x, t):
@@ -73,7 +75,7 @@ def run_comparison(dt=default_dt):
     time_idx = int(t_end / dt)
     for dx in dx_vals:
         f, x = run_ftcs_calc(dx)
-        f_data.append(f[time_idx])
+        f_data.append(f[-1])
         x_data.append(x)
     fa = get_analytic_solution(x, 1e2)
     x_data.append(x)
