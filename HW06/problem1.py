@@ -54,7 +54,7 @@ def plot(fig, data, savefig):
     plt.title("CN vs. FTCS dx = 0.05 dt = 2.0")
     plt.xlabel('x [-]')
     plt.ylabel('f [-]')
-    plt.savefig("{0}.png".format(savefig))
+#    plt.savefig("{0}.png".format(savefig))
     plt.show()
 
 if __name__ == '__main__':
@@ -80,4 +80,4 @@ if __name__ == '__main__':
         B_FTCS = make_B_FTCS(f_FTCS)
 
     data = [x, fa, f, f_FTCS]
-    plot(2, data, 'problem1.png')
+    plot(2, data, 'problem1')
