@@ -69,13 +69,15 @@ im = ax.imshow(u.copy(), cmap=plt.get_cmap('hot'), vmin=0, vmax=0.06)
 cbar_ax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 ax.set_title('2D distribution after 80 time steps using FTCS')
 fig.colorbar(im, cax=cbar_ax)
-plt.show()
+plt.savefig('./writeup/problem2_plot.png')
 
 fig = plt.figure(1)
 ax = fig.add_subplot(111)
+ax.set_title('|f_exact - f_ftcs| Using FTCS')
 im = ax.imshow(norm_diff_vals.copy(), cmap=plt.get_cmap('hot'), vmin=0,\
         vmax=l_inf_norm)
 cbar_ax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 fig.colorbar(im, cax=cbar_ax)
-plt.show()
+plt.savefig('./writeup/problem2_error.png')
 
+print("The L_infinity error for FTCS is: " + str(l_inf_norm))

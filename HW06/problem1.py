@@ -34,6 +34,12 @@ def get_analytic_solution(x, t):
 
     return fa
 
+def get_L_norm(exact, u):
+    
+    L_norm = max(abs(exact - u))
+
+    return L_norm
+
 
 def plot(fig, data, savefig):
     plt.figure(fig)
@@ -45,8 +51,7 @@ def plot(fig, data, savefig):
     plt.title("CN vs. FTCS dx = 0.05 dt = 2.0")
     plt.xlabel('x [-]')
     plt.ylabel('f [-]')
-#    plt.savefig("{0}.png".format(savefig))
-    plt.show()
+    plt.savefig("./writeup/{0}.png".format(savefig))
 
 if __name__ == '__main__':
     
@@ -62,7 +67,12 @@ if __name__ == '__main__':
         # Sovle CN
         B = make_B_CN(f)
         f = solve_matrix(A, B)[0]
-
+    
     f_FTCS = ftcs.run_ftcs_calc()
     data = [x, fa, f, f_FTCS]
+    CN_l_norm = get_L_norm(fa, f)
+    FTCS_l_norm = get_L_norm(f_FTCS, f)
+    results = "The CN L_inf error is: " + str(CN_l_norm) + "\n" +\
+          "The FTCS L_inf error is: " + str(FTCS_l_norm)
+    print(results)
     plot(2, data, 'problem1')
