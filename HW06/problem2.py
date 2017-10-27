@@ -1,59 +1,81 @@
-import math
 import numpy as np
-import scipy.sparse
-from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
-from solvers import solve_matrix, gaussian_elimination, thomas_solver
-
-# some constants
+# some important constants 
+x_bound = y_bound = 1.
+dx = dy = 0.05
 k = 0.1
-dx = 0.05
-dy = 0.05
-dt = (dx**2 / k) / 4.0 
+nx, ny = int(x_bound/dx), int(y_bound/dy)
+dx2, dy2 = dx*dx, dy*dy
+dt = (dx2 / k) / 4.0
 t_end = 80 * dt
-x_domain = (0, 1)
-y_domain = (0, 1)
-N_x = int((x_domain[1] - x_domain[0]) / dx)
-N_y = int((y_domain[1] - y_domain[0]) / dy)
-x = np.linspace(x_domain[0], x_domain[1], N_x) 
-y = np.linspace(y_domain[0], y_domain[1], N_y) 
-times = np.linspace(0, t_end, int(t_end / dt))
 
-alpha = k * dt / dx ** 2
+# set the grid
+u0 = np.zeros((nx, ny))
+u_exact = np.zeros((nx, ny))
+u = np.zeros((nx, ny))
 
-def get_analytic_solution(x, y, t, trunc):
-
-    X, Y = np.meshgrid(x, y)
-    Z = 0
+def get_exact(x, y, t, trunc):
+    """Get the exact solution at a set t
+    """
+    Z=0
     for n in range(1, trunc):
         for m in range(1, trunc):
             Z_num = -120 * ( ((-n)**4 * np.pi**4 * (-1)**n) +\
                              (12 * n**2 * np.pi ** 2 * (-1)**n)\
                              + 24 + (24 * (-1)**(1+n))\
                              *(-2 + (2*(-1)**m) ) )
-            Z_num_xy = np.sin(n*X*np.pi)*np.sin(m*Y*np.pi)\
+            Z_num_xy = np.sin(n*x*np.pi)*np.sin(m*y*np.pi)\
                        * np.exp(-(n**2 + m**2) * np.pi**2 * k * t)
             Z_denom = n**7 * np.pi**10 * m**3
 
             Z += Z_num * Z_num_xy / Z_denom
     
-    return X, Y, Z
+    return Z
 
-if __name__ == '__main__':
-
-    X, Y, Z = get_analytic_solution(x, y, t_end, 100)
+def get_L_norm(exact, u):
     
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
-    # Plot the surface.
-    surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
-                           linewidth=0, antialiased=False)
+    diffs = abs(exact - u)
+    l_diffs = []
+    for row in diffs:
+        l_diffs.append(max(row))
+    return max(l_diffs), diffs
 
-    # Add a color bar which maps values to colors.
-    fig.colorbar(surf, shrink=0.5, aspect=5)
+# Initial conditions
 
-    plt.show()
+for i in range(nx):
+    for j in range(ny):
+        x = i*dx
+        y = j*dy
+        u0[i,j] = x * (1-x**5) * y * (1-y)
+        u_exact[i,j] = get_exact(x, y, t_end, 10)
+
+
+def do_timestep(u0, u):
+    # Propagate with forward-difference in time, central-difference in space
+    u[1:-1, 1:-1] = u0[1:-1, 1:-1] + k * dt * (
+          (u0[2:, 1:-1] - 2*u0[1:-1, 1:-1] + u0[:-2, 1:-1])/dx2
+          + (u0[1:-1, 2:] - 2*u0[1:-1, 1:-1] + u0[1:-1, :-2])/dy2 )
+
+    u0 = u.copy()
+    return u0, u
+
+u0, u = do_timestep(u0, u)
+l_inf_norm, norm_diff_vals = get_L_norm(u_exact, u0)
+
+fig = plt.figure(1)
+ax = fig.add_subplot(111)
+im = ax.imshow(u.copy(), cmap=plt.get_cmap('hot'), vmin=0, vmax=0.06)
+cbar_ax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+ax.set_title('2D distribution after 80 time steps using FTCS')
+fig.colorbar(im, cax=cbar_ax)
+plt.show()
+
+fig = plt.figure(1)
+ax = fig.add_subplot(111)
+im = ax.imshow(norm_diff_vals.copy(), cmap=plt.get_cmap('hot'), vmin=0,\
+        vmax=l_inf_norm)
+cbar_ax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+fig.colorbar(im, cax=cbar_ax)
+plt.show()
 
