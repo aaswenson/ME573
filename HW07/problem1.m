@@ -41,18 +41,24 @@ ey = ones(ny-2,1);
 A_x = spdiags([-alphax*ex 2*(1+alphax)*ex -alphax*ex], -1:1, nx-2, nx-2);
 A_y = spdiags([-alphay*ey 2*(1+alphay)*ey -alphay*ey], -1:1, ny-2, ny-2);
 
-%A_x = full(A_x);
+%A_x = full(A_x)
 %A_y = full(A_y);
 
-for i=0:nt
-    step = mod(i, 2);
-    
-    if step == 1
-        b = (2 + alphay*dy2)*f(2:nx-1,2:ny-1);
-        f_inter = A_x \ b;
-        b = (2 + alphax*dx2)*f_inter;
-        f_save = A_y \ b;
-    else
+% march solution through time steps
+for t=0:nt
+    %step = mod(t, 2);
+    step = 1;
+    if step == 1 % start with x-direction
+        for i=2:ny-2
+            b = (2 + alphay*dy2)*f(i,2:ny-1);
+            f_inter(i, 2:ny-1) = A_x \ b';
+        end
+        for j=2:nx-2
+            f_inter
+            b = (2 + alphax*dx2)*f_inter(2:nx-1,j);
+            f_save(2:ny-1,j) = A_y \ b;
+        end
+    else % start with y-direction
         b = (2 + alphax*dx2)*f(2:nx-1,2:ny-1);
         f_inter = A_y \ b;
         b = (2 + alphay*dy2)*f_inter;
@@ -61,17 +67,18 @@ for i=0:nt
     f(2:nx-1,2:ny-1) = f_save;
 end
 
+%% Plotting Results
 figure(1)
 surf(X,Y,f)
 
 figure(2)
 surf(X,Y,abs(f-f_exact) );
 
-end 
-
+end % End of Main Program
 
 
 function exactf = get_exact(X, Y, trunc, t_end)
+% This function plots the exact solution to the 2D diffusion PDE
 global k
 exactf = zeros(length(X), length(Y));
 for n=1:trunc
