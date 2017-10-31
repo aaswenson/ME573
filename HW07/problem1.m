@@ -16,7 +16,8 @@ alphax = k*dt / dx2; alphay = k*dt / dy2;
 % create mesh
 x = 0:dx:x_bound;
 y = 0:dy:y_bound;
-[X, Y] = meshgrid(x);
+[X, Y] = meshgrid(x,y);
+X=X'; Y=Y';
 % Set Initial Conditions
 f = X .* (1-X.^5) .* Y .* (1-Y);
 f(1,:) = 0;
@@ -41,23 +42,26 @@ ey = ones(ny-2,1);
 A_x = spdiags([-alphax*ex 2*(1+alphax)*ex -alphax*ex], -1:1, nx-2, nx-2);
 A_y = spdiags([-alphay*ey 2*(1+alphay)*ey -alphay*ey], -1:1, ny-2, ny-2);
 
-%A_x = full(A_x)
+A_x = full(A_x)
 %A_y = full(A_y);
+
+f_inter = zeros(nx-2,ny-2);
+f_save = zeros(nx-2,ny-2);
 
 % march solution through time steps
 for t=0:nt
     %step = mod(t, 2);
     step = 1;
     if step == 1 % start with x-direction
-        for i=2:ny-2
-            b = (2 + alphay*dy2)*f(i,2:ny-1);
-            f_inter(i, 2:ny-1) = A_x \ b';
+        for i=2:ny-1
+            b = (2 + alphay*dy2)*f(i,2:ny-1)';
+            f_inter(i,:) = A_x \ b;
         end
-        for j=2:nx-2
-            f_inter
+        for j=2:nx-1
             b = (2 + alphax*dx2)*f_inter(2:nx-1,j);
-            f_save(2:ny-1,j) = A_y \ b;
+            f_save(:,j) = A_y \ b;
         end
+        f_save;
     else % start with y-direction
         b = (2 + alphax*dx2)*f(2:nx-1,2:ny-1);
         f_inter = A_y \ b;
