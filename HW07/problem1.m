@@ -1,11 +1,8 @@
 %% Alex Swenson HW7 (Computer Project 5c)
 function problem1()
-
-%% Set Domain
-
-% some important constants 
-x_bound = 1; y_bound = 1.;
-dx = 0.1; dy = dx;
+% Set Domain and some important constants 
+x_bound = 1; y_bound = 1;
+dx = 0.05; dy = dx;
 global k 
 k = 0.1;
 nx = x_bound/dx; ny = y_bound/dy;
@@ -16,9 +13,9 @@ nt = t_end / dt;
 
 alphax = k*dt / dx2; alphay = k*dt / dy2;
 
+% create mesh
 x = 0:dx:x_bound;
 y = 0:dy:y_bound;
-% create mesh
 [X, Y] = meshgrid(x);
 % Set Initial Conditions
 f = X .* (1-X.^5) .* Y .* (1-Y);
@@ -28,50 +25,47 @@ f(:,1) = 0;
 %% Get Exact Solution
 Ntrunc = 50;
 f_exact = get_exact(X, Y, Ntrunc, t_end);
+f_exact(1,:) = 0;
+f_exact(:,1) = 0;
 
 %% Part A) L_inf Error Between f_init, f_exact @ 0
 
 A_exact = get_exact(X, Y, Ntrunc, 0);
+L_inf = max(max(abs(f - A_exact)))
 
-figure(1)
-surf(X, Y, abs(f - A_exact));
+%% Solve the Problem Using ADI
 
 % Make The A - matrices
-e = ones(nx-2, 1);
-A_x = spdiags([-alphax*e 2*(1+alphax)*e -alphax*e], -1:1, nx-2, nx-2);
-A_y = spdiags([-alphay*e 2*(1+alphay)*e -alphay*e], -1:1, ny-2, ny-2);
+ex = ones(nx-2, 1);
+ey = ones(ny-2,1);
+A_x = spdiags([-alphax*ex 2*(1+alphax)*ex -alphax*ex], -1:1, nx-2, nx-2);
+A_y = spdiags([-alphay*ey 2*(1+alphay)*ey -alphay*ey], -1:1, ny-2, ny-2);
 
-A_x = full(A_x)
+%A_x = full(A_x);
 %A_y = full(A_y);
-
-f_save = f;
 
 for i=0:nt
     step = mod(i, 2);
     
-    if step == 0
-        for i=2:nx-2
-       % use the first routine (x then y)
-            b = alphay*f(i,3:ny) + 2*(1-alphay)*f(i,2:ny-1) +  alphay*f(i,1:ny-2);
-            f_inter =  A_x \ b';
-        end
-        for j=2:ny-2
-            b = alphax*f_inter(3:nx,j) + 2*(1-alphax)*f_inter(2:nx-1,j) + alphax*f_inter(1:nx-2,j);
-            f_save(i,1:ny-2) = (A_y \ b)';
-        end
+    if step == 1
+        b = (2 + alphay*dy2)*f(2:nx-1,2:ny-1);
+        f_inter = A_x \ b;
+        b = (2 + alphax*dx2)*f_inter;
+        f_save = A_y \ b;
     else
-        for j=2:ny-2
-       % use the second solving routine (y then x)
-            b = alphax*f(3:nx,j) + 2*(1-alphax)*f(2:nx-1,j) + alphax*f(1:nx-2,j);
-            f_intermediate = A_y \ f(j,1:nx-2)';
-            f_save(j,1:nx-2) = (A_x \ f_intermediate)';
-        end
-    f = f_save;
+        b = (2 + alphax*dx2)*f(2:nx-1,2:ny-1);
+        f_inter = A_y \ b;
+        b = (2 + alphay*dy2)*f_inter;
+        f_save = A_x \ b;
     end
+    f(2:nx-1,2:ny-1) = f_save;
 end
 
-figure(2)
+figure(1)
 surf(X,Y,f)
+
+figure(2)
+surf(X,Y,abs(f-f_exact) );
 
 end 
 
