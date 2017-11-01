@@ -39,7 +39,7 @@ disp(out);
 % Make The A - matrices
 ex = ones(nx-2, 1);
 ey = ones(ny-2,1);
-A_x = spdiags([-alphax*ex 2*(1+alphax)*ex -alphax*ex], -1:1, nx-2, nx-2)
+A_x = spdiags([-alphax*ex 2*(1+alphax)*ex -alphax*ex], -1:1, nx-2, nx-2);
 A_y = spdiags([-alphay*ey 2*(1+alphay)*ey -alphay*ey], -1:1, ny-2, ny-2);
 
 
@@ -47,22 +47,22 @@ A_y = spdiags([-alphay*ey 2*(1+alphay)*ey -alphay*ey], -1:1, ny-2, ny-2);
 f_inter = f;
 f_save = f;
 
-for t=1:1
+for t=1:2
     step = mod(t, 2);
 
     if step == 1
         for j=2:nx-1
-            b = (2 + alphay*dy2)*f(:,j);
+            b = (2 + alphay*dy2)*f(:,j)
             f_inter(2:ny-1,j) = A_x \ b(2:ny-1);
         end
         for i=2:ny-1
-            b = (2 + alphax*dx2)*f_inter(i,:)'
-            f_save(i,2:nx-1) = A_y \ b(2:nx-1);
+            b = (2 + alphax*dx2)*f_inter(i,:)
+            f_save(i,2:nx-1) = A_y \ b(2:nx-1)';
         end
     elseif step == 0
         for i=2:ny-1
-            b = (2 + alphax*dx2)*f(i,:)';
-            f_inter(i,2:nx-1) = A_y \ b(2:nx-1);
+            b = (2 + alphax*dx2)*f(i,:);
+            f_inter(i,2:nx-1) = A_y \ b(2:nx-1)';
         end
         for j=2:nx-1
             b = (2 + alphay*dy2)*f_inter(:,j);
@@ -80,20 +80,22 @@ figure(1)
 surf(X,Y,f_exact)
 xlabel('X [-]')
 ylabel('Y [-]')
-
 title(['Exact Solution at T= ', num2str(tend)])
+saveas(gcf, './writeup/exact_solution.png')
 
 figure(2)
 surf(X,Y,f);
 xlabel('X [-]')
 ylabel('Y [-]')
 title(['ADI Solution at T= ', num2str(tend)])
+saveas(gcf, './writeup/adi_solution.png')
 
 figure(3)
 surf(X,Y,abs(f - f_exact));
 xlabel('X [-]')
 ylabel('Y [-]')
 title(['Solution Error (ADI vs. Exact) at T= ', num2str(tend)])
+saveas(gcf, './writeup/solution_error.png')
 
 end % End of Main Program
 
