@@ -1,14 +1,17 @@
-function problem1()
-clear; clc; close all;
-global dx nx ny f_exact f_guess f_source
+function problem1(delta_x, fig_num)
+
+global dx nx ny f_exact f_guess f_source omega_opt
 
 % Set Domain and some important constants 
 x_bound = 1; y_bound = 1;
-dx = 0.01; dy = dx;
+dx = delta_x; dy = dx;
 x = 0:dx:x_bound; y = 0:dy:y_bound;
 nx = length(x); ny = length(y);
-iteration_step = 10;
+iteration_step = 20;
 iteration_max = 800;
+
+lambda_jac = (cos(nx*pi*dx) + cos(ny*pi*dx)) / 2;
+omega_opt = 2 / (1 + sqrt(1 - lambda_jac^2));
 
 jac = zeros(1,(iteration_max / iteration_step));
 gauss = zeros(1,(iteration_max / iteration_step));
@@ -32,11 +35,20 @@ for n=1:iteration_step:iteration_max;
 end
 
 % plot error results
-figure(1)
+figure(fig_num)
 plot(N, jac,'g', N, gauss, 'r', N, sor, 'b')
 xlim([0,800])
 ylim([0,0.07])
+
+newline = char(10);
+disp(['For a dx of ', num2str(dx), newline,...
+      'Jacobi Error is ', num2str(jac(length(jac))), newline,...
+      'Gaussian Error is ', num2str(gauss(length(gauss))), newline,...
+      'SOR Error is ', num2str(sor(length(sor))), newline,...
+      'Omega Opt is ', num2str(omega_opt), newline]);
 end
+
+
 
 
 %% Run The Comparison Between Iteration Methods
@@ -77,11 +89,10 @@ end
 
 %% Sucessive Over-Relaxation Function
 function f = SOR(f, f_source, nx, ny, dx)
-    lambda_jac = (cos(nx*pi*dx) + cos(ny*pi*dx)) / 2;
-    omega_opt = 2 / (1 + sqrt(1 - lambda_jac^2));
+    global omega_opt
     f_save = f;
     f_inter = gauss_seidel(f, f_source, nx, ny, dx);
-    f = f + omega_opt*(f_inter - f_save);
+    f = f + 1.4*(f_inter - f_save);
 end
 
 
