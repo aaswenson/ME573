@@ -52,11 +52,11 @@ for t=1:2
 
     if step == 1
         for j=2:nx-1
-            b = (2 + alphay*dy2)*f(:,j)
+            b = (2 + alphay*dy2)*f(:,j);
             f_inter(2:ny-1,j) = A_x \ b(2:ny-1);
         end
         for i=2:ny-1
-            b = (2 + alphax*dx2)*f_inter(i,:)
+            b = (2 + alphax*dx2)*f_inter(i,:);
             f_save(i,2:nx-1) = A_y \ b(2:nx-1)';
         end
     elseif step == 0
