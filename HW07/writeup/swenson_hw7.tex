@@ -48,24 +48,78 @@
 	\end{figure}
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-		\section{Part C}
 		
-		\noindent The following figures contain the b vectors used to solve the problem. They are the vectors used in the first time step (1-a) and (1-b).
+	\section{Part B}
 		
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3.75in]{b_mat_1.png}
-			\label{fig:bmat1}
-		\end{figure}
+	\noindent Displayed below is the matrix form of the first two steps in the ADI algorithm.
+	\subsection{(1-a)}	
+	\[
+	\begin{bmatrix} 
+	2(1+\alpha_x) & -\alpha_x   &			   &\\
+	-\alpha_x & 2(1+\alpha_x) & -\alpha_x  &\\
+			  & \ddots &			   &\\
+	&	 	  & \ddots & -\alpha_x  \\
+	&		  & -\alpha_x & 2(1+\alpha_x)  \\ 
+	\end{bmatrix}
+	\begin{bmatrix} 
+	f_{2,j}^{n+\frac{1}{2}}\\
+	f_{3,j}^{n+\frac{1}{2}}\\
+	\vdots\\
+	f_{Nx-2,j}^{n+\frac{1}{2}}\\
+	f_{Nx-1,j}^{n+\frac{1}{2}}\\ 
+	\end{bmatrix} = 
+	\begin{bmatrix} 
+		(2 + \alpha_y\Delta_y^2)f_{2,j}^{n}\\
+		(2 + \alpha_y\Delta_y^2)f_{3,j}^{n}\\
+		\vdots\\
+		(2 + \alpha_y\Delta_y^2)f_{Nx-2,j}^{n}\\
+		(2 + \alpha_y\Delta_y^2)f_{Nx-1,j}^{n}\\ 
+		\end{bmatrix}
+	\]
+	\subsection{(1-b)}
+		\[
+		\begin{bmatrix} 
+		2(1+\alpha_y) & -\alpha_y   &			   &\\
+		-\alpha_y & 2(1+\alpha_y) & -\alpha_y  &\\
+		& \ddots &			   &\\
+		&	 	  & \ddots & -\alpha_y  \\
+		&		  & -\alpha_y & 2(1+\alpha_y)  \\ 
+		\end{bmatrix}
+		\begin{bmatrix} 
+		f_{i,2}^{n+\frac{1}{2}}\\
+		f_{i,3}^{n+\frac{1}{2}}\\
+		\vdots\\
+		f_{i,Ny-2}^{n+\frac{1}{2}}\\
+		f_{i,Ny-1}^{n+\frac{1}{2}}\\ 
+		\end{bmatrix} = 
+		\begin{bmatrix} 
+		(2 + \alpha_y\Delta_x^2)f_{i,2}^{n}\\
+		(2 + \alpha_y\Delta_x^2)f_{i,3}^{n}\\
+		\vdots\\
+		(2 + \alpha_y\Delta_x^2)f_{i,Ny-2}^{n}\\
+		(2 + \alpha_y\Delta_x^2)f_{i,Ny-1}^{n}\\ 
+		\end{bmatrix}
+		\]
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\newpage
+	\section{Part C}
 		
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=1.5in]{b_mat_2.png}
-			\label{fig:bmat2}
-		\end{figure}
+	\noindent The following figures contain the b vectors used to solve the problem. They are the vectors used in the first time step (1-a) and (1-b).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=3.75in]{b_mat_1.png}
+		\label{fig:bmat1}
+	\end{figure}
+		
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=1.5in]{b_mat_2.png}
+		\label{fig:bmat2}
+	\end{figure}
 		
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-			
+	\newpage		
 	\section{Part D}
 	
 	\noindent The following Figure \ref{fig:error} shows the error between the exact solution and the ADI method at the end of the time steps.

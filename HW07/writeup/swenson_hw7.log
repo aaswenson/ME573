@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.31)  1 NOV 2017 10:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.11.1)  1 NOV 2017 16:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **swenson_hw7.tex
 (./swenson_hw7.tex
 LaTeX2e <2016/02/01>
-Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
+Babel <3.9q> and hyphenation patterns for 3 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
@@ -356,50 +356,56 @@ Overfull \hbox (63.34415pt too wide) in paragraph at lines 46--48
  [][] 
  []
 
-<b_mat_1.png, id=2, 460.72125pt x 397.485pt>
-File: b_mat_1.png Graphic file (type png)
- <use b_mat_1.png>
-Package pdftex.def Info: b_mat_1.png used on input line 57.
-(pdftex.def)             Requested size: 314.13693pt x 271.0125pt.
- [1
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./matrixAxAy.png>]
-<b_mat_2.png, id=14, 892.33376pt x 182.6825pt>
+[2] <b_mat_1.png, id=21, 460.72125pt x 397.485pt>
+File: b_mat_1.png Graphic file (type png)
+ <use b_mat_1.png>
+Package pdftex.def Info: b_mat_1.png used on input line 111.
+(pdftex.def)             Requested size: 314.13693pt x 271.0125pt.
+
+<b_mat_2.png, id=22, 892.33376pt x 182.6825pt>
 File: b_mat_2.png Graphic file (type png)
  <use b_mat_2.png>
-Package pdftex.def Info: b_mat_2.png used on input line 63.
+Package pdftex.def Info: b_mat_2.png used on input line 117.
 (pdftex.def)             Requested size: 529.52232pt x 108.405pt.
 
-Overfull \hbox (45.31352pt too wide) in paragraph at lines 63--65
+Overfull \hbox (45.31352pt too wide) in paragraph at lines 117--119
  [][] 
  []
 
-<solution_error.png, id=15, 421.575pt x 316.0608pt>
+[3 <./b_mat_1.png> <./b_mat_2.png>]
+<solution_error.png, id=26, 421.575pt x 316.0608pt>
 File: solution_error.png Graphic file (type png)
  <use solution_error.png>
-Package pdftex.def Info: solution_error.png used on input line 75.
+Package pdftex.def Info: solution_error.png used on input line 129.
 (pdftex.def)             Requested size: 361.51819pt x 271.0125pt.
 
-[2 <./b_mat_1.png> <./b_mat_2.png>] [3 <./solution_error.png (PNG copy)>]
-(./swenson_hw7.aux) ) 
+[4 <./solution_error.png (PNG copy)>] (./swenson_hw7.aux) ) 
 Here is how much of TeX's memory you used:
- 4071 strings out of 493029
- 57126 string characters out of 6136233
- 148638 words of memory out of 5000000
- 7555 multiletter control sequences out of 15000+600000
- 9488 words of font info for 35 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 38i,6n,40p,272b,240s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on swenson_hw7.pdf (3 pages, 193440 bytes).
+ 4072 strings out of 494953
+ 57143 string characters out of 6180977
+ 149799 words of memory out of 5000000
+ 7305 multiletter control sequences out of 15000+600000
+ 9795 words of font info for 36 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 38i,9n,40p,272b,240s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on swenson_hw7.pdf (4 pages, 235396 bytes).
 PDF statistics:
- 42 PDF objects out of 1000 (max. 8388607)
- 26 compressed objects within 1 object stream
+ 65 PDF objects out of 1000 (max. 8388607)
+ 43 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
