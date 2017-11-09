@@ -7,7 +7,7 @@ x_bound = 1; y_bound = 1;
 dx = delta_x; dy = dx;
 x = 0:dx:x_bound; y = 0:dy:y_bound;
 nx = length(x); ny = length(y);
-iteration_step = 20;
+iteration_step = 2;
 iteration_max = 800;
 
 lambda_jac = (cos(nx*pi*dx) + cos(ny*pi*dx)) / 2;
@@ -39,13 +39,25 @@ figure(fig_num)
 plot(N, jac,'g', N, gauss, 'r', N, sor, 'b')
 xlim([0,800])
 ylim([0,0.07])
+title(['L1 Error Comparison dx= ', num2str(dx)])
+xlabel('Number of Iterations [-]')
+ylabel('L1 error [-]')
+legend('Jacobi', 'Gauss-Seidel', 'Successive Over-Relaxation')
+saveas(gcf,['./writeup/p1_',num2str(dx),'.pdf'])
+
 
 newline = char(10);
-disp(['For a dx of ', num2str(dx), newline,...
+results = ['For a dx of ', num2str(dx), newline,...
       'Jacobi Error is ', num2str(jac(length(jac))), newline,...
       'Gaussian Error is ', num2str(gauss(length(gauss))), newline,...
       'SOR Error is ', num2str(sor(length(sor))), newline,...
-      'Omega Opt is ', num2str(omega_opt), newline]);
+      'Omega Opt is ', num2str(omega_opt), newline];
+disp(results);
+
+fid = fopen('./writeup/results.txt','a');
+fprintf(fid,'%s\n', results);
+fclose(fid);
+
 end
 
 
@@ -61,7 +73,7 @@ for it=1:N_iterations
     f_jac = jacobi_iteration(f_save_jac, f_source, nx, ny,dx);
     f_save_jac = f_jac;
     % run gauss iteration
-    f_gauss = gauss_seidel(f_save_gauss, f_source, nx, ny,dx);
+    f_gauss = gauss_seidel(f_save_gauss, f_source, nx, ny,dx,1);
     f_save_gauss = f_gauss;
     % run SOR iteration
     f_sor = SOR(f_save_sor, f_source, nx, ny,dx);
@@ -78,11 +90,13 @@ function f = jacobi_iteration(f, f_source, nx, ny,dx)
                              - 0.25 * (f_source(2:nx-1,2:ny-1)*dx^2);
 end
 %% Gauss-Seidel Iteration Function
-function f = gauss_seidel(f, f_source, nx, ny, dx)
+function f = gauss_seidel(f, f_source, nx, ny, dx, omega)
+    f_temp = f;
     for row=2:ny-1
        for col=2:nx-1
-           f(row, col) = 0.25*(f(row, col+1) + f(row,col-1) + ...
+           f_temp(row, col) = 0.25*(f(row, col+1) + f(row,col-1) + ...
                f(row+1,col) + f(row-1,col)) - 0.25*f_source(row,col)*dx^2;
+           f(row,col) = f(row,col) + omega*(f_temp(row,col) - f(row,col));
        end
     end
 end
@@ -90,9 +104,8 @@ end
 %% Sucessive Over-Relaxation Function
 function f = SOR(f, f_source, nx, ny, dx)
     global omega_opt
-    f_save = f;
-    f_inter = gauss_seidel(f, f_source, nx, ny, dx);
-    f = f + 1.4*(f_inter - f_save);
+    f = gauss_seidel(f, f_source, nx, ny, dx, omega_opt);
+
 end
 
 
