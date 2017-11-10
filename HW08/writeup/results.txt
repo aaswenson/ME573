@@ -16,3 +16,21 @@ Gaussian Error is 4.1633e-17
 SOR Error is 3.4694e-17
 Omega Opt is 1.5279
 
+For a dx of 0.01
+Jacobi Error is 0.044199
+Gaussian Error is 0.030166
+SOR Error is 3.2613e-16
+Omega Opt is 1.9391
+
+For a dx of 0.05
+Jacobi Error is 3.3466e-06
+Gaussian Error is 1.697e-10
+SOR Error is 4.1633e-17
+Omega Opt is 1.7295
+
+For a dx of 0.1
+Jacobi Error is 2.7756e-17
+Gaussian Error is 4.1633e-17
+SOR Error is 3.4694e-17
+Omega Opt is 1.5279
+

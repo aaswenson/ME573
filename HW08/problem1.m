@@ -43,7 +43,7 @@ title(['L1 Error Comparison dx= ', num2str(dx)])
 xlabel('Number of Iterations [-]')
 ylabel('L1 error [-]')
 legend('Jacobi', 'Gauss-Seidel', 'Successive Over-Relaxation')
-saveas(gcf,['./writeup/p1_',num2str(dx),'.pdf'])
+saveas(gcf,['./writeup/p1_',num2str(dx),'.png'])
 
 
 newline = char(10);
