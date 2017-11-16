@@ -24,22 +24,22 @@ else
     disp(['C_0 = ', num2str(C_0,3)]);
 end
 
-%% Make the Coefficient Matrices
 
-e = ones(N-2,1);
-% A_ftcs = spdiags([0.5*C_0*e, e, -0.5*C_0*e], -1:1,N-2,N-2);
-A_ftbs = spdiags([e*C_0, e*(1-C_0), e*0], -1:1,N-2,N-2);
-
-full(A_ftbs)
-
-%% Solve using FTBS method
+%% Solve using FTBS and FTCS method
 f_ftbs = f_init;
+f_ftcs = f_init;
+f_save_forward = f_ftbs;
+f_save_central = f_ftcs;
 for i=1:nt
-    f_save(2:N-1) = f_ftbs(2:N-1) * A_ftbs;
-    f_ftbs(2:N-1) = f_save(2:N-1);
+    for j=2:N-1
+       f_ftbs(j) = f_save_forward(j-1)*C_0 + (1-C_0)*f_save_forward(j);
+       f_ftcs(j) = (C_0*0.5)*f_save_central(j-1) + f_save_central(j) - (C_0*0.5)*f_save_central(j+1);
+    end
+    f_save_forward = f_ftbs;
+    f_save_central = f_ftcs;
 end
 
-plot(x,f_ftbs, x, f_analytic)
+plot(x,f_ftbs, x, f_analytic, x, f_ftcs)
 
 end
 
