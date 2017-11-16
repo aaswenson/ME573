@@ -38,8 +38,13 @@ for i=1:nt
     f_save_forward = f_ftbs;
     f_save_central = f_ftcs;
 end
-
-plot(x,f_ftbs, x, f_analytic, x, f_ftcs)
+figure(1)
+plot(x, f_analytic, 'r', x, f_ftcs, 'g', x, f_ftbs, 'b')
+title(['Comparison of Linear Advection Schemes'])
+xlabel(['X [-]'])
+ylabel(['f(X) [-]'])
+legend('Analytic', 'FTCS', 'FTBS')
+saveas(gcf,['./writeup/p2_compare_schemes.png'])
 
 end
 
