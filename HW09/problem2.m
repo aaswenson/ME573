@@ -1,14 +1,11 @@
 %% Numerical Solutions to the Convection equation
 %
 %       df/dt + U*(df/dx) = 0
-function problem2()
-clear; clc;
+function [x, f_analytic, f_ftbs, f_ftcs] = problem2(dt, dx, tf)
 %% Set constants, problem space
 
 U = pi;
-dt = 0.01; tf = 0.5;
 nt = (tf / dt);
-dx = 0.05;
 x = -5:dx:5;
 N = length(x) - 1;
 
@@ -38,13 +35,7 @@ for i=1:nt
     f_save_forward = f_ftbs;
     f_save_central = f_ftcs;
 end
-figure(1)
-plot(x, f_analytic, 'r', x, f_ftcs, 'g', x, f_ftbs, 'b')
-title(['Comparison of Linear Advection Schemes'])
-xlabel(['X [-]'])
-ylabel(['f(X) [-]'])
-legend('Analytic', 'FTCS', 'FTBS')
-saveas(gcf,['./writeup/p2_compare_schemes.png'])
+
 
 end
 
