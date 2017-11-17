@@ -1,3 +1,4 @@
+%% HW09 Run Script
 clear; clc;
 
 disp('Running FTCS and FTBS algorithms...')
@@ -28,12 +29,12 @@ i = i + 1;
 
 % Plot Unstable Results
 figure(start_plot + i)
-plot(x_unstable, exact_unstable, 'r', x_unstable, ftbs_unstable, 'b', x_unstable, ftcs_unstable, 'g')
-title('Comparison of Linear Advection Schemes in an Unstable State')
+plot(x_unstable, exact_unstable, 'r', x_unstable, ftbs_unstable, 'b')
+title('FTBS Linear Advection Scheme in an Unstable State')
 xlabel('X [-]')
 ylabel('f(X) [-]')
-legend('Analytic', 'FTBS', 'FTCS')
-saveas(gcf,'./writeup/ftcs_ftbs_unstable.png')
+legend('Analytic', 'FTBS')
+saveas(gcf,'./writeup/ftbs_unstable.png')
 i = i + 1;
 
 % Plot results without FTCS
