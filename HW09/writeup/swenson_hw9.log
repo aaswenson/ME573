@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.11.1)  17 NOV 2017 16:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.31)  17 NOV 2017 18:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **swenson_hw9.tex
 (./swenson_hw9.tex
 LaTeX2e <2016/02/01>
-Babel <3.9q> and hyphenation patterns for 3 language(s) loaded.
+Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
@@ -346,56 +346,59 @@ e
 ))
 \c@lstlisting=\count128
 
-<ftcs_ftbs.png, id=1, 425.9112pt x 319.4334pt>
-File: ftcs_ftbs.png Graphic file (type png)
- <use ftcs_ftbs.png>
-Package pdftex.def Info: ftcs_ftbs.png used on input line 93.
-(pdftex.def)             Requested size: 361.37633pt x 271.0125pt.
- [1
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-<ftbs_unstable.png, id=16, 433.62pt x 342.5598pt>
+<ftcs_ftbs.png, id=17, 425.9112pt x 319.4334pt>
+File: ftcs_ftbs.png Graphic file (type png)
+ <use ftcs_ftbs.png>
+Package pdftex.def Info: ftcs_ftbs.png used on input line 117.
+(pdftex.def)             Requested size: 361.37633pt x 271.0125pt.
+
+<ftbs_unstable.png, id=18, 433.62pt x 342.5598pt>
 File: ftbs_unstable.png Graphic file (type png)
  <use ftbs_unstable.png>
-Package pdftex.def Info: ftbs_unstable.png used on input line 102.
+Package pdftex.def Info: ftbs_unstable.png used on input line 126.
 (pdftex.def)             Requested size: 343.07875pt x 271.0125pt.
 
-[2 <./ftcs_ftbs.png (PNG copy)>] <ftbs_CN.png, id=20, 425.9112pt x 319.4334pt>
+[2 <./ftcs_ftbs.png (PNG copy)>] <ftbs_CN.png, id=22, 425.9112pt x 319.4334pt>
 File: ftbs_CN.png Graphic file (type png)
 
 <use ftbs_CN.png>
-Package pdftex.def Info: ftbs_CN.png used on input line 113.
+Package pdftex.def Info: ftbs_CN.png used on input line 137.
 (pdftex.def)             Requested size: 361.37633pt x 271.0125pt.
  [3 <./ftbs_unstable.png (PNG copy)>]
-<ftbs_CN_error.png, id=24, 433.62pt x 342.5598pt>
+<ftbs_CN_error.png, id=26, 433.62pt x 342.5598pt>
 File: ftbs_CN_error.png Graphic file (type png)
  <use ftbs_CN_error.png>
-Package pdftex.def Info: ftbs_CN_error.png used on input line 120.
+Package pdftex.def Info: ftbs_CN_error.png used on input line 144.
 (pdftex.def)             Requested size: 343.07875pt x 271.0125pt.
 
 [4 <./ftbs_CN.png (PNG copy)> <./ftbs_CN_error.png (PNG copy)>]
 (./swenson_hw9.aux) ) 
 Here is how much of TeX's memory you used:
- 4073 strings out of 494953
- 57181 string characters out of 6180977
- 145799 words of memory out of 5000000
- 7306 multiletter control sequences out of 15000+600000
+ 4073 strings out of 493029
+ 57181 string characters out of 6136233
+ 151638 words of memory out of 5000000
+ 7557 multiletter control sequences out of 15000+600000
  9488 words of font info for 35 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
+ 1141 hyphenation exceptions out of 8191
  38i,6n,40p,281b,240s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on swenson_hw9.pdf (4 pages, 194753 bytes).
+mi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmtt12.pfb>
+Output written on swenson_hw9.pdf (4 pages, 212587 bytes).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 65 PDF objects out of 1000 (max. 8388607)
+ 43 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -70,9 +70,33 @@
 		\frac{A^{n+1}}{A^n} = 1 - C_0[1 - e^{-I\theta}]	
 	\end{equation}
 	
+	Which matches the Pozrikis's definition for $\frac{A^{n+1}}{A^n}$. Now we square the definition.
+	
 	\begin{equation}
 		|\frac{A^{n+1}}{A^n}|^2 = -2C_0^2e^{i\theta} + C_0^2e^{2i\theta} + C_0^2 + 2C_0e^{i\theta}-2C_0 + 1
 	\end{equation}
+	
+	\begin{equation}
+		|\frac{A^{n+1}}{A^n}|^2 = C_0[-2C_0e^{i\theta} + C_0e^{2i\theta} + C_0 + 2e^{i\theta}-2] + 1
+	\end{equation}
+	
+	\begin{equation}
+		|\frac{A^{n+1}}{A^n}|^2 = 2C_0[-C_0e^{i\theta} + \frac{C_0e^{2i\theta}}{2} + \frac{C_0}{2} + e^{i\theta}-2] + 1
+	\end{equation}
+	
+	\begin{equation}
+		|\frac{A^{n+1}}{A^n}|^2 = 2C_0[-C_0(cos\theta + isin\theta) + \frac{C_0(cos(2\theta) + isin(2\theta)}{2} + \frac{C_0}{2} + (cos\theta + isin\theta)-2] + 1
+	\end{equation}
+	
+	\begin{equation}
+		|\frac{A^{n+1}}{A^n}|^2 = 2C_0[(1-C_0)(cos\theta + isin\theta) + \frac{C_0}{2}(cos(2\theta) + isin(2\theta) -1)] + 1
+	\end{equation}
+	
+	\begin{equation}
+		|\frac{A^{n+1}}{A^n}|^2 = (1-2C_0)[(1-C_0)(cos\theta + isin\theta) + \frac{C_0}{2}(cos(2\theta) + isin(2\theta))]
+	\end{equation}
+	
+	The final step to reach Equation 2 is unclear.
 		
 
 	
