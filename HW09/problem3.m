@@ -37,8 +37,8 @@ A = spdiags([-C_0*e, 4*e, C_0*e], -1:1, N-2, N-2);
 b = update_b(f_init, C_0, N, bc1, bc2);
 f = f_init;
 for i=1:nt
-   f(2:N-1) = A\b';
-   b = update_b(f, C_0, N, bc1, bc2);
+    f(2:N-1) = thomas(A,b);
+    b = update_b(f, C_0, N, bc1, bc2);
 end
 
 end

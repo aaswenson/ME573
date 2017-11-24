@@ -27,6 +27,7 @@ f_ftbs = f_init;
 f_ftcs = f_init;
 f_save_forward = f_ftbs;
 f_save_central = f_ftcs;
+start_time = cputime;
 for i=1:nt
     for j=2:N-1
        f_ftbs(j) = f_save_forward(j-1)*C_0 + (1-C_0)*f_save_forward(j);
@@ -35,6 +36,10 @@ for i=1:nt
     f_save_forward = f_ftbs;
     f_save_central = f_ftcs;
 end
+
+time = cputime - start_time;
+
+disp(time);
 
 
 end
