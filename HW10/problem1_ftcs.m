@@ -1,5 +1,5 @@
 %% Alex Swenson ME573 HW10, Problem 1
-function problem1()
+function problem1_ftcs()
 clear; clc;
 
 %% Problem Parameters
@@ -27,7 +27,7 @@ f_ftbs = f_init;
 
 for i=1:dt:t_final
     for j=2:N-1
-       f_ftbs(j) = (c+alpha)*f_save(j-1) + (1-c-2*alpha)*f_save(j) + alpha*f_save(j+1);
+       f_ftbs(j) = f_save(j) - c*0.5*(f_save(j+1) - f_save(j-1)) + alpha*(f_save(j-1) - 2*f_save(j) + f_save(j+1));
     end
     f_save = f_ftbs;
 end

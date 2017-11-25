@@ -1,5 +1,5 @@
 %% Alex Swenson ME573 HW10, Problem 1
-function problem1()
+function problem1_ftbs()
 clear; clc;
 
 %% Problem Parameters
