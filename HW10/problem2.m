@@ -1,4 +1,4 @@
-%% Alex Swenson ME573 HW10, Problem 1
+%% Alex Swenson ME573 HW10, Problem 2
 function problem2()
 clear; clc;
 
@@ -17,21 +17,9 @@ U = 0.2;
 kappa = 0.01;
 
 
-f_exact = analytic_solution(x,t_final,U,kappa,t_init);
+f_exact = 
 
 
 end
 
-function f = analytic_solution(x, t, u, k, t_0)
-
-    C_i = pi;
-    C_o = 2*pi;
-    
-    if t > t_0
-        f = C_i + (C_o - C_i)*eval_A(x,t,u,k) - C_o*eval_A(x,(t-t_0),u,k);
-    else
-        f = C_i + (C_o - C_i)*eval_A(x,t,u,k); 
-    end
-
-end
 
