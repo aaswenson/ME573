@@ -1,5 +1,5 @@
 %% Alex Swenson ME573 HW10, Problem 2
-function problem2()
+function [x, f_ftcs, f_CN, f_analytic] = problem2()
 clear; clc;
 
 %% Problem Parameters
@@ -20,21 +20,20 @@ alpha = kappa*dt / (dx*dx);
 
 f_analytic = analytic(x,L,t_final);
 f_ftcs = analytic(x,L,0);
+f_CN = f_ftcs;
 
+t = t_init;
+while t < t_final;
 
-for i=t_init:dt:t_final
     f_ftcs(2:N-1) = f_ftcs(2:N-1) - f_ftcs(2:N-1).*(dt/dx).*(f_ftcs(3:N) - f_ftcs(1:N-2))*0.5 + ...
                alpha*(f_ftcs(3:N) - 2*f_ftcs(2:N-1) + f_ftcs(1:N-2));
-
+    f_ftcs(1) = analytic(x(1), L, t);
+    f_ftcs(N) = analytic(x(N), L, t);
+    t = t + dt;
 end
 
 Co = abs(f_analytic * (dt / dx));
 Rec = Co / alpha;
-% figure(1)
-% semilogy(x, Rec, x, Co)
-% figure(2)
-figure(1)
-plot(x,f_ftcs, x, f_analytic)
 
 
 end

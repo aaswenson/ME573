@@ -1,6 +1,7 @@
 %% HW10 Run Script
 clc; clear; clf;
 [p1x, p1ftbs, p1ftcs, p1CN, p1exact] = problem1();
+[p2x, p2ftcs, p2CN, p2exact] = problem2();
 
 
 %% Plotting
@@ -14,4 +15,13 @@ xlabel('X [-]')
 ylabel('f(X) [-]')
 legend('FTBS', 'FTCS', 'CN','Exact')
 saveas(gcf,'./writeup/problem1.png')
+i = i + 1;
+
+figure(start_plot + i)
+plot(p2x, p2ftcs, 'o', p2x, p2exact)
+title('Burgers Equation')
+xlabel('X [-]')
+ylabel('f(X) [-]')
+legend('FTCS','Exact')
+saveas(gcf,'./writeup/problem2_ftcs.png')
 i = i + 1;
