@@ -1,10 +1,10 @@
 %% Alex Swenson ME573 HW10, Problem 1
-function problem1_FTCS()
+function problem1_CN()
 clear; clc;
-
+global alphax alphay
 %% Problem Parameters
 
-dx = 0.1; dy=dx;
+dx = 0.5; dy=dx;
 dt=0.001;
 x = -1:dx:1;
 y = 0:dy:2;
@@ -37,19 +37,29 @@ fv(1,:) = v_exact(1,:); fv(ny,:) = v_exact(ny,:);
 fu_ = fu;
 fu_save = fu;
 
-fv_ = fv;
+fv_ = fv;    
 fv_save = fv;
+
+Ax = update_Ax(fu, nx, dt, dx, 1);
+Ay = update_Ax(fu, ny, dt, dy, 1);
+
 
 for t=0:dt:15
         Co_x = fu * dt / (dx^2);
         Co_y = fu * dt / (dy^2);
         for j=2:nx-1
+            % FTCS
             % calculate u direction
             fu_(2:ny-1,j) = fu(2:ny-1,j)-(Co_x(2:ny-1,j)./2).*(fu(3:ny,j)-fu(1:ny-2,j))+...
                 alphax*(fu(3:ny,j) - 2*fu(2:ny-1,j) + fu(1:ny-2,j));
             % calculate v direction
             fv_(2:ny-1,j) = fv(2:ny-1,j)-(Co_x(2:ny-1,j)./2).*(fv(3:ny,j)-fv(1:ny-2,j))+...
                 alphax*(fv(3:ny,j) - 2*fv(2:ny-1,j) + fv(1:ny-2,j));
+            % Crank Nicholson
+            % calculate u direction
+            Aux = update_Ax(fu_, nx, dt, dx, j);
+            % calculate v direction
+            Avx = update_Ax(fv_, nx, dt, dx, j);
         end
         for i=2:ny-1
             % calculate u direction
@@ -58,14 +68,20 @@ for t=0:dt:15
             % calculate v direction
             fv_save(i,2:nx-1) = fv_(i,2:nx-1)-(Co_y(i,2:nx-1)./2).*(fv_(i,3:nx)-fv_(i,1:nx-2))+...
                 alphay*(fv_(i,3:nx) - 2*fv_(i,2:nx-1) + fv_(i,1:nx-2));
+            % Crank Nicolson
+            % calculate u direction
+            Auy = update_Ay(fu_, ny, dt, dy, i);
+            % calculate v direction
+            Avy = update_Ay(fv_, ny, dt, dy, i);
         end
     fu = fu_save;
     fv = fv_save;
 end
-figure(1)
-surf(X,Y,abs(fu-u_exact));
-figure(2)
-surf(X,Y,abs(fv-v_exact));
+
+% figure(1)
+% surf(X,Y,abs(fu-u_exact));
+% figure(2)
+% surf(X,Y,abs(fv-v_exact));
 
 
 
@@ -87,3 +103,32 @@ function [u,v] = get_exact(X, Y, k, nu)
     u = u_num ./ denom;
     v = v_num ./ denom;
 end
+
+function A = update_Ax(f, N, dt, dx, j)
+    global alphax
+    f = f(:,j)';
+    e = ones(N-1, 1);
+    % set ghost point to make matrix
+    f(N+1) = 1;
+    A = spdiags([-((f(3:N+1)'*dt/dx) +2*alphax).*e, 4*(1+alphax)*e, (f(1:N-1)'*(dt/dx) - 2*alphax).*e], -1:1, N-2, N-2);
+end
+
+function A = update_Ay(f, N, dt, dx, j)
+    global alphay
+    f = f(j,:);
+    e = ones(N-1, 1);
+    % set ghost point to make matrix
+    f(N+1) = 1;
+    A = spdiags([-((f(3:N+1)'*dt/dx) +2*alphay).*e, 4*(1+alphay)*e, (f(1:N-1)'*(dt/dx) - 2*alphay).*e], -1:1, N-2, N-2);
+end
+
+function b = update_b(f, c, N, alpha, bc1, bc2)
+    % update the RHS vector, include initial boundary conditions for 
+    % first and last nodes.
+    b = (c+2*alpha)*f(1:N-2) + 4*(1-alpha)*f(2:N-1) - (c-2*alpha)*f(3:N);
+    b(1) = b(1) + (c+2*alpha)*bc1;
+    b(N-2) = b(N-2) - (c-2*alpha)*bc2;
+end
+
+
+
