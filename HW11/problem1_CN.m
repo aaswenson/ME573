@@ -1,11 +1,10 @@
 %% Alex Swenson ME573 HW10, Problem 1
-function problem1_CN()
-clear; clc;
+function [X,Y, u_exact, v_exact, fuCN, fvCN] = problem1_CN()
 global alphax alphay
 %% Problem Parameters
 
 dx = 0.1; dy=dx;
-dt=0.01;
+dt=0.1;
 x = -1:dx:1;
 y = 0:dy:2;
 
@@ -33,33 +32,15 @@ fu(1,:) = u_exact(1,:); fu(ny,:) = u_exact(ny,:);
 fv(:,1) = v_exact(:,1); fv(:,nx) = v_exact(:,nx);
 fv(1,:) = v_exact(1,:); fv(ny,:) = v_exact(ny,:);
 
-fu_ = fu;
-fu_save = fu;
-fv_ = fv;    
-fv_save = fv;
-
 fuCN = fu;
 fvCN = fv;
 fu_CN = fu;
 fu_saveCN = fu;
 fv_CN = fv;    
 fv_saveCN = fv;
-
-Auxtest = update_Ax(fuCN, nx, dt, dx, 1);
-full(Auxtest)
-
 %% March in Time
-for t=0:dt:10
-        Co_x = fu * dt / (dx^2);
-        Co_y = fu * dt / (dy^2);
+for t=0:dt:15
         for j=2:nx-1
-            % FTCS
-            % calculate u direction
-            fu_(2:ny-1,j) = fu(2:ny-1,j)-(Co_x(2:ny-1,j)./2).*(fu(3:ny,j)-fu(1:ny-2,j))+...
-                alphax*(fu(3:ny,j) - 2*fu(2:ny-1,j) + fu(1:ny-2,j));
-            % calculate v direction
-            fv_(2:ny-1,j) = fv(2:ny-1,j)-(Co_x(2:ny-1,j)./2).*(fv(3:ny,j)-fv(1:ny-2,j))+...
-                alphax*(fv(3:ny,j) - 2*fv(2:ny-1,j) + fv(1:ny-2,j));
             % ----------------- Crank Nicholson ------------------- %
             % calculate u direction
             Aux = update_Ax(fuCN, nx, dt, dx, j);
@@ -71,12 +52,6 @@ for t=0:dt:10
             fv_CN(2:ny-1,j) = thomas(Avx, bvx);
         end
         for i=2:ny-1
-            % calculate u direction
-            fu_save(i,2:nx-1) = fu_(i,2:nx-1)-(Co_y(i,2:nx-1)./2).*(fu_(i,3:nx)-fu_(i,1:nx-2))+...
-                alphay*(fu_(i,3:nx) - 2*fu_(i,2:nx-1) + fu_(i,1:nx-2));
-            % calculate v direction
-            fv_save(i,2:nx-1) = fv_(i,2:nx-1)-(Co_y(i,2:nx-1)./2).*(fv_(i,3:nx)-fv_(i,1:nx-2))+...
-                alphay*(fv_(i,3:nx) - 2*fv_(i,2:nx-1) + fv_(i,1:nx-2));
             % ----------------- Crank Nicholson ------------------- %
             % calculate u direction
             Auy = update_Ay(fu_CN, ny, dt, dy, i);
@@ -87,23 +62,9 @@ for t=0:dt:10
             bvy= update_by(fv_CN, ny, dt, dy, i);
             fv_saveCN(i,2:nx-1) = thomas(Avy, bvy);
         end
-    fu = fu_save;
-    fv = fv_save;
     fuCN = fu_saveCN;
     fvCN = fv_saveCN;
 end
-
-figure(1)
-surf(X,Y,fu);
-% figure(2)
-% surf(X,Y,abs(fv-v_exact));
-figure(2)
-surf(X,Y,fuCN)
-
-
-
-
-
 
 end
 
