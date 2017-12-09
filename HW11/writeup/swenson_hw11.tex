@@ -31,7 +31,7 @@
 
 \section{Problem 1}
 	See attached screenshots from Mathematica for problem 1. The screenshots support the exact solutions validity as a solution to the underlying PDE.
-\newpage
+
 \section{Problem 2}
 	
 \noindent Displayed below is the matrix form of the first two steps in the algorithm.
@@ -112,6 +112,34 @@ b_{2,j} = (\frac{v_{2,j}^n\Delta t}{\Delta x} + 2 \alpha_y)v_{1,j}^*
 b_{N-1,j} = ( 2 \alpha_y - \frac{v_{N-1,j}^n\Delta t}{\Delta x} +)v_{N,j}^*
 \end{equation}
 
+\subsection{Time Domain}
+Since this is a steady state solution, I needed to ensure my approximation had reached steady state. If the solution was still transient, it would not match the exact solution. I controlled this with the number of time steps taken and the length of the time step used. I used trial and error to determine the sufficient number of time steps and step length to model the underlying PDE. 
+
+For FTCS I used dt = 0.001 and tf=15. For CN I used dt=0.1 and tf=15. Due to the extra iterations required for FTCS, it took much more time to run. Using the tic, toc, method in Matlab (and including the overhead to set up the problem for both CN and FTCS), the Crank-Nicolson and FTCS methods took, 10.44 and 5.8 seconds respectively.
+
+\subsection{Error Plots}
+
+Below are the error plots for the steady state FD solutions compared to the exact solution. I should note that the error of the x-component (u) of the solution is too high for FTCS. I have not been able to determine the source of this error. I was encouraged by the error performance of the y-component for FTCS and both component results using CN.
+
+	\begin{figure}[!htb]
+		\centering
+		\includegraphics[scale=0.75]{ftcsu.png}
+	\end{figure}
+	
+	\begin{figure}[!htb]
+		\centering
+		\includegraphics[scale=0.75]{ftcsv.png}
+	\end{figure}
+	
+	\begin{figure}[!htb]
+		\centering
+		\includegraphics[scale=0.75]{CNu.png}
+	\end{figure}
+	
+	\begin{figure}[!htb]
+		\centering
+		\includegraphics[scale=0.75]{CNv.png}
+	\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
