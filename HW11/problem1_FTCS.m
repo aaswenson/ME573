@@ -1,11 +1,9 @@
 %% Alex Swenson ME573 HW10, Problem 1
-function problem1_FTCS()
-clear; clc;
-
+function [X,Y,fu,fv,u_exact,v_exact] = problem1_FTCS()
 %% Problem Parameters
 
 dx = 0.1; dy=dx;
-dt=0.001;
+dt = 0.001;
 x = -1:dx:1;
 y = 0:dy:2;
 
@@ -42,7 +40,7 @@ fv_save = fv;
 
 for t=0:dt:15
         Co_x = fu * dt / (dx^2);
-        Co_y = fu * dt / (dy^2);
+        Co_y = fv * dt / (dy^2);
         for j=2:nx-1
             % calculate u direction
             fu_(2:ny-1,j) = fu(2:ny-1,j)-(Co_x(2:ny-1,j)./2).*(fu(3:ny,j)-fu(1:ny-2,j))+...
@@ -62,15 +60,6 @@ for t=0:dt:15
     fu = fu_save;
     fv = fv_save;
 end
-figure(1)
-surf(X,Y,abs(fu-u_exact));
-figure(2)
-surf(X,Y,abs(fv-v_exact));
-
-
-
-
-
 
 end
 
