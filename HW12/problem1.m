@@ -9,7 +9,7 @@ dx = 0.02; dy=dx; Lx=1.0; Ly=Lx;
 Nx = (Lx/dx) + 1;   Ny = (Ly/dy) + 1;
 save_idx = [int8(0.14/dx), int8(0.08/dy)];
 nu = 0.01; rho = 1.0; dt = 0.1; tfinal = 1; t=0:dt:tfinal;
-nslip = 50; sliptol = 0.00001; vlid = 1.0; 
+nslip = 1; sliptol = 0.00001; vlid = 1.0; 
 
 alphax = nu * dt / dx^2; alphay = nu * dt / dy^2;
 u(Nx,Ny) = 0.0; v(Nx,Ny) = 0.0;
@@ -41,8 +41,10 @@ y = 0:dy:1;
 % Meshgrid
 [X, Y] = meshgrid(x,y);
 X=X'; Y=Y';
-
+figure(1)
 surf(X,Y,u)
+figure(2)
+surf(X,Y,v)
 end
 
 function [u_2, v_2] = project_vel(Nx, Ny, u, v, dx, dy, dt, rho, phi,...
@@ -77,7 +79,7 @@ function [u_2, v_2] = project_vel(Nx, Ny, u, v, dx, dy, dt, rho, phi,...
     v_2(1,2:Ny-1) = vleft(2:Ny-1) - (dt/rho)*LHSdpdy_int;
     % project right nodes
     u_2(Nx,2:Ny-1) = -(dt/rho)*RHSdpdx;
-    v_2(Nx,2:Ny-1) = vright(2:Ny-1) - (dt/rho)*RHSdpdy_int;   
+    v_2(Nx,2:Ny-1) = vright(2:Ny-1) - (dt/rho)*RHSdpdy_int;
 end
 
 function [utop, ubot, vleft, vright, maxslip] = check_vel(u, v, Nx, Ny,...
