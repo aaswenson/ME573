@@ -53,38 +53,48 @@ function [u_2, v_2] = project_vel(Nx, Ny, u, v, dx, dy, dt, rho, phi,...
     dpx = (phi(3:Nx,2:Ny-1) - phi(1:Ny-2,2:Ny-1)) ./ (2*dx);
     dpy = (phi(2:Nx-1,3:Ny) - phi(2:Nx-1,1:Ny-2)) ./ (2*dy);
     % Lower Boundary Derivatives
-    Ldpdx_int = (phi(3:Nx,1) - phi(1:Nx-2,1)) ./ (2*dx);
-    Ldpdy = 0;
+    Li = (phi(3:Nx-2,1) - phi(1:Nx-2,1)) ./ (2*dx);
+    L0 = 0;
+    L2 = (-3*phi(2,1) + 4*phi(3,1) - phi(4,1)) ./ (2*dx);
+    LN_1 = (3*phi(Nx-1,1) - 4*phi(Nx-2,1) + phi(Nx-3,1)) ./ (2*dx);
     % Upper Boundary Derivatives
-    Udpdx_int = (phi(3:Nx,Ny) - phi(1:Nx-2,Ny)) ./ (2*dx);
-    Udpdy = 0;
+    Ui = (phi(3:Nx,Ny) - phi(1:Nx-2,Ny)) ./ (2*dx);
+    U0 = 0;
+    U2 = (-3*phi(2,Ny) + 4*phi(3,Ny) - phi(4,Ny)) ./ (2*dx);
+    UN_1 = (3*phi(Nx-1,Ny) - 4*phi(Nx-2,Ny) + phi(Nx-3,Ny)) ./ (2*dx);
     % LHS Boundary Derivatives
-    LHSdpdy_int = (phi(1,3:Ny) - phi(1,1:Ny-2)) ./ (2*dy);
-    LHSdpdx = 0;
+    LHSi = (phi(1,3:Ny) - phi(1,1:Ny-2)) ./ (2*dy);
+    LHS0 = 0;
+    LHS2 = (-3*phi(1,2) + 4*phi(1,3) - phi(1,4)) ./ (2*dy);
+    LHSN_1 = (3*phi(1,Ny-1) - 4*phi(1,Ny-2) + phi(1,Ny-3)) ./ (2*dy);
     % RHS Boundary Derivatives
-    RHSdpdy_int = (phi(Nx,3:Ny) - phi(Nx,1:Ny-2)) ./ (2*dy);
-    RHSdpdx = 0;
+    RHSi = (phi(Nx,3:Ny) - phi(Nx,1:Ny-2)) ./ (2*dy);
+    RHS0 = 0;
+    RHS2 = (-3*phi(Nx,2) + 4*phi(Nx,3) - phi(Nx,4)) ./ (2*dy);
+    RHSN_1 = (3*phi(Nx,Ny-1) - 4*phi(Nx,Ny-2) + phi(Nx,Ny-3)) ./ (2*dy);
 
     % project internal velocities
     u_2(2:Nx-1,2:Ny-1) = u(2:Nx-1,2:Ny-1) - (dt/rho)*dpx;
     v_2(2:Nx-1,2:Ny-1) = v(2:Nx-1,2:Ny-1) - (dt/rho)*dpy;
+    
     % project bottom nodes
-    u_2(2:Nx-1,1) = ubot(2:Nx-1) - (dt/rho)*Ldpdx_int;
-    v_2(2:Nx-1,1) = -(dt/rho) * Ldpdy;
+    u_2(3:Nx-2,1) = ubot(3:Nx-2) - (dt/rho).*Li;
+    u_2(2,1) = ubot(2) - (dt/rho).*L2;
+    u_2(Nx-1,1) = ubot(Nx-1) - (dt/rho).*LN_1;
+    v_2(3:Nx-2,1) = 0;
     % project top nodes
-    u_2(2:Nx-1,Ny) = utop(2:Nx-1) - (dt/rho)*Udpdx_int;
-    v_2(2:Nx-1,Ny) = -(dt/rho) * Udpdy;
+    u_2(2:Nx-1,Ny) = utop(2:Nx-1) - (dt/rho)*Ui;
+    v_2(2:Nx-1,Ny) = -(dt/rho) * U0;
     % project left nodes
-    u_2(1,2:Ny-1) = -(dt/rho)*LHSdpdx;
-    v_2(1,2:Ny-1) = vleft(2:Ny-1) - (dt/rho)*LHSdpdy_int;
+    u_2(1,2:Ny-1) = -(dt/rho)*LHS0;
+    v_2(1,2:Ny-1) = vleft(2:Ny-1) - (dt/rho)*LHSi;
     % project right nodes
-    u_2(Nx,2:Ny-1) = -(dt/rho)*RHSdpdx;
-    v_2(Nx,2:Ny-1) = vright(2:Ny-1) - (dt/rho)*RHSdpdy_int;
+    u_2(Nx,2:Ny-1) = -(dt/rho)*RHS0;
+    v_2(Nx,2:Ny-1) = vright(2:Ny-1) - (dt/rho)*RHSi;
 end
 
 function [utop, ubot, vleft, vright, maxslip] = check_vel(u, v, Nx, Ny,...
                                           vlid, utop, vleft, ubot, vright)
-
     maxslip = 0;
     for i=1:Nx
        % Top
