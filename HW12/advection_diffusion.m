@@ -65,7 +65,7 @@ function b = update_bx(u, f, N, dt, dx, j, bc1, bc2)
     c = dt/dx;
     b = (c*u(2:N-1)+2*alphax).*f(1:N-2) + 4*(1-alphax)*f(2:N-1) + (2*alphax-c*u(2:N-1)).*f(3:N);
     b(1) = b(1) + (c*u(2)+2*alphax)*bc1;
-%     b(N-2) = b(N-2) + (2*alphax - u(N-2)*c)*bc2;
+    b(N-2) = b(N-2) + (2*alphax - u(N-2)*c)*bc2;
 end
 
 function b = update_by(v, f, N, dt, dy, i, bc1, bc2)
@@ -77,7 +77,7 @@ function b = update_by(v, f, N, dt, dy, i, bc1, bc2)
     c = dt/dy;
     b = (c*v(1:N-2)+2*alphay).*f(1:N-2) + 4*(1-alphay)*f(2:N-1) + (2*alphay-c*v(2:N-1)).*f(3:N);
     b(1) = b(1) + (c*v(2)+2*alphay)*bc1;
-%     b(N-2) = b(N-2) + (2*alphay - v(N-2)*c)*bc2;
+    b(N-2) = b(N-2) + (2*alphay - v(N-2)*c)*bc2;
 end
 
 
