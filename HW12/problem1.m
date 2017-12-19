@@ -1,26 +1,27 @@
 %% HW12 Alexander Swenson
-function problem1()
-clear; clc; clf;
+function [x, y, u, v, t, usave] = problem1(tfinal)
 %% Set Parameters
-global alphax alphay
+% load converge phi data
 S = load('converged_phi.mat');
 phi = S.phi;
 dx = 0.02; dy=dx; Lx=1.0; Ly=Lx;
+x = 0:dx:1; y = 0:dy:1;
 Nx = (Lx/dx) + 1;   Ny = (Ly/dy) + 1;
 save_idx = [int8(0.14/dx), int8(0.08/dy)];
-nu = 0.01; rho = 1.0; dt = 0.1; tfinal = 50; t=0:dt:tfinal;
+nu = 0.01; rho = 1.0; dt = 0.1; t=0:dt:tfinal;
 nslip = 50; sliptol = 0.00001; vlid = 1.0; 
-
-alphax = nu * dt / dx^2; alphay = nu * dt / dy^2;
+% set intial values
 u(Nx,Ny) = 0.0; v(Nx,Ny) = 0.0;
 
 % boundary conditions
 utop(1:Nx)=vlid; ubot(1:Nx)=0.0; vleft(1:Ny)=0.0; vright(1:Ny)=0.0;
-
 u(:,Ny) = vlid;
+% save u for transient result
+usave = u(save_idx(1), save_idx(2));
 
-for i=1:tfinal / dt;
-    for i=1:nslip;
+%% March forward in time
+for i=0:tfinal / dt;
+    for j=1:nslip;
         [u_1, v_1] = advection_diffusion(dt, dx, dy, u, v, nu,...
                                          ubot', utop', vleft, vright);
         [u_2, v_2] = project_vel(Nx, Ny, u_1, v_1, dx, dy, dt, rho, phi,...
@@ -28,34 +29,15 @@ for i=1:tfinal / dt;
         [utop, ubot, vleft, vright, maxslip] =...
             check_vel(u_2, v_2, Nx, Ny, vlid, utop, vleft, ubot, vright);
         if maxslip < sliptol
-           disp(['required slip iterations ', num2str(i)])
+           disp(['required slip iterations ', num2str(j)])
            break
         end
     end     
      u = u_2;
+     usave(i+1) = u(save_idx(1), save_idx(1));
      v = v_2;
 end
 
-x = 0:dx:1;
-y = 0:dy:1;
-
-% Meshgrid
-[X, Y] = meshgrid(x,y);
-X=X'; Y=Y';
-figure(1)
-surf(X,Y,u)
-figure(2)
-surf(X,Y,v)
-y_p=[1.0000 0.9766  0.9688 0.9609  0.9531 0.8516  0.7344 0.6172 0.5000 0.4531 0.2813 0.1719  0.1016 0.0703 0.0625 0.0547 0.0000];%y coordinate
-Utest=[1.0000 0.8412 0.7887 0.7372 0.68717 0.2315 0.0033  -0.1364  -0.2058  -0.2109  -0.1566  -0.1015  -0.0643  -0.04775  -0.0419  -0.0371 0.0000];% Re=100
-
-x_p=[1.0000 0.9688 0.9609 0.9531 0.9453 0.9063 0.8594 0.8047 0.5000 0.2344 0.2266 0.1563 0.0938 0.0781 0.0703 0.0625 0.0000];
-Vtest=[0.0000 -0.05906  -0.0739 -0.0886 -0.10313 -0.16914 -0.22445 -0.24533 0.05454 0.17527 0.17507 0.16077 0.12317 0.1089 0.1009 0.0923 0.0000];
-
-figure(3)
-plot(y,u(0.5/dx,:), y_p, Utest)
-figure(4)
-plot(x,v(:,0.5/dx), x_p, Vtest)
 end
 
 function [u_2, v_2] = project_vel(Nx, Ny, u, v, dx, dy, dt, rho, phi,...
